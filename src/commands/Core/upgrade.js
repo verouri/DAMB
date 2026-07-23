@@ -52,13 +52,13 @@ Your private DAMB access will be sent to your email after payment confirmation.
                 new ButtonBuilder()
                     .setLabel("💎 Buy DAMB+")
                     .setStyle(ButtonStyle.Link)
-                    .setURL("https://damb.gg/checkout/plus"),
+                    .setURL("https://www.paypal.com/ncp/payment/MVK6GKT538NC4")
 
 
                 new ButtonBuilder()
                     .setLabel("⚡ Buy DAMBX")
                     .setStyle(ButtonStyle.Link)
-                    .setURL("https://damb.gg/checkout/x")
+                    .setURL("https://www.paypal.com/ncp/payment/M3RYZ94MRW6XC")
 
             );
 
@@ -122,6 +122,4 @@ Run **/upgrade** again to start a new purchase session.`
     }
 };
 
-git add .
-git commit -m "Added DAMB upgrade command"
-git push
+
