@@ -1,14 +1,14 @@
 
 
-const {
+import {
     SlashCommandBuilder,
     EmbedBuilder,
     ActionRowBuilder,
     ButtonBuilder,
     ButtonStyle
-} = require("discord.js");
+} from "discord.js";
 
-module.exports = {
+export default {
 
     data: new SlashCommandBuilder()
         .setName("upgrade")
