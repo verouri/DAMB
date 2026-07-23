@@ -119,3 +119,7 @@ Run **/upgrade** again to start a new purchase session.`
 
     }
 };
+
+git add .
+git commit -m "Added DAMB upgrade command"
+git push
