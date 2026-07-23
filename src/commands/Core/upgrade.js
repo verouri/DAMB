@@ -52,13 +52,13 @@ Your private DAMB access will be sent to your email after payment confirmation.
                 new ButtonBuilder()
                     .setLabel("💎 Buy DAMB+")
                     .setStyle(ButtonStyle.Link)
-                    .setURL("https://www.paypal.com/ncp/payment/MVK6GKT538NC4")
+                    .setURL("https://www.paypal.com/ncp/payment/MVK6GKT538NC4"),
 
 
                 new ButtonBuilder()
                     .setLabel("⚡ Buy DAMBX")
                     .setStyle(ButtonStyle.Link)
-                    .setURL("https://www.paypal.com/ncp/payment/M3RYZ94MRW6XC")
+                    .setURL("https://www.paypal.com/ncp/payment/M3RYZ94MRW6XC"),
 
             );
 
