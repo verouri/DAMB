@@ -1,94 +1,121 @@
-import {
+const {
     SlashCommandBuilder,
+    EmbedBuilder,
     ActionRowBuilder,
-    StringSelectMenuBuilder,
-    ComponentType,
-    EmbedBuilder
-} from "discord.js";
+    ButtonBuilder,
+    ButtonStyle
+} = require("discord.js");
 
-export default {
+module.exports = {
+
     data: new SlashCommandBuilder()
         .setName("upgrade")
-        .setDescription("Upgrade to another DAMB version."),
+        .setDescription("Upgrade DAMB to premium"),
 
     async execute(interaction) {
 
-        const menu = new StringSelectMenuBuilder()
-            .setCustomId("upgrade")
-            .setPlaceholder("Choose a version...")
-            .addOptions(
-                {
-                    label: "DAMB+",
-                    description: "Premium version of DAMB",
-                    emoji: "⭐",
-                    value: "plus"
-                },
-                {
-                    label: "DAMBX",
-                    description: "Experimental version",
-                    emoji: "🚀",
-                    value: "x"
-                }
+        const upgradeEmbed = new EmbedBuilder()
+            .setColor("#5865F2")
+            .setTitle("✨ Upgrade DAMB")
+            .setDescription(
+`Thank you for supporting **DAMB**!
+
+Choose a premium plan below.
+
+## 💎 DAMB+
+> Premium moderation features
+> Advanced tools
+> Priority support
+> Early feature access
+
+## ⚡ DAMBX
+> Everything in DAMB+
+> Exclusive premium features
+> Future beta access
+> Highest priority support
+
+After purchasing, you will complete a verification form.
+Your private DAMB access will be sent to your email after payment confirmation.
+
+⏰ This upgrade session expires in **1 hour**.`
+            )
+            .setFooter({
+                text: "Secure checkout powered by DAMB"
+            });
+
+
+        const upgradeButtons = new ActionRowBuilder()
+            .addComponents(
+
+                new ButtonBuilder()
+                    .setLabel("💎 Buy DAMB+")
+                    .setStyle(ButtonStyle.Link)
+                    .setURL("https://damb.gg/checkout/plus"),
+
+
+                new ButtonBuilder()
+                    .setLabel("⚡ Buy DAMBX")
+                    .setStyle(ButtonStyle.Link)
+                    .setURL("https://damb.gg/checkout/x")
+
             );
 
-        const row = new ActionRowBuilder().addComponents(menu);
+
+        let dmMessage;
+
+
+        try {
+
+            dmMessage = await interaction.user.send({
+                embeds: [upgradeEmbed],
+                components: [upgradeButtons]
+            });
+
+
+        } catch (error) {
+
+            return interaction.reply({
+                content:
+                "❌ I couldn't DM you. Please enable Direct Messages and try again.",
+                ephemeral: true
+            });
+
+        }
+
 
         await interaction.reply({
-            embeds: [
-                new EmbedBuilder()
-                    .setColor(0x5865F2)
-                    .setTitle("Upgrade DAMB")
-                    .setDescription("Select the version you'd like below.")
-            ],
-            components: [row],
+            content:
+            "📩 I've sent your private upgrade menu in DMs.",
             ephemeral: true
         });
 
-        const collector = interaction.channel.createMessageComponentCollector({
-            componentType: ComponentType.StringSelect,
-            time: 60000
-        });
 
-        collector.on("collect", async i => {
 
-            if (i.user.id !== interaction.user.id) {
-                return i.reply({
-                    content: "This menu isn't for you.",
-                    ephemeral: true
-                });
-            }
+        // Expire after 1 hour
 
-            let link = "";
+        setTimeout(async () => {
 
-            switch (i.values[0]) {
 
-                case "plus":
-                    link = "https://your-damb-plus-link.com";
-                    break;
+            const expiredEmbed = new EmbedBuilder()
+                .setColor("#ff4444")
+                .setTitle("⌛ Upgrade Session Expired")
+                .setDescription(
+`This upgrade session has expired.
 
-                case "x":
-                    link = "https://your-dambx-link.com";
-                    break;
+Run **/upgrade** again to start a new purchase session.`
+                );
 
-            }
 
-            await i.update({
-                embeds: [
-                    new EmbedBuilder()
-                        .setColor(0x57F287)
-                        .setTitle("Upgrade Selected")
-                        .setDescription(
-`Click below to get your selected version.
+            await dmMessage.edit({
 
-🔗 ${link}`
-                        )
-                ],
+                embeds: [expiredEmbed],
                 components: []
-            });
 
-            collector.stop();
+            }).catch(() => {});
 
-        });
+
+        }, 60 * 60 * 1000);
+
 
     }
 };
