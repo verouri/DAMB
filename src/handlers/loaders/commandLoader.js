@@ -95,9 +95,13 @@ export async function loadCommands(client) {
                 logger.info(`  - Subcommands: ${subcommands.join(', ')}`);
             }
             
-        } catch (error) {
-            logger.error(`Error loading command from ${filePath}:`, error);
-        }
+         } catch (error) {
+    console.error("=================================");
+    console.error("FAILED TO LOAD:", filePath);
+    console.error(error.stack);
+    console.error("=================================");
+}
+        
     }
     
     const commandsWithSubcommands = Array.from(client.commands.values()).filter(cmd => {
